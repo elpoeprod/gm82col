@@ -1,4 +1,6 @@
 |to_color
 |draw_button_ext
-|load_theme
+|load_theme_reg
 |save_theme
+|load_theme
+|string_cut

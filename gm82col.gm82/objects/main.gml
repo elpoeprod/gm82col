@@ -4,9 +4,37 @@ lib_id=1
 action_id=603
 applies_to=self
 */
-load_theme()
+load_theme(undefined)
+
+labels=12
+label[0]='Normal text: '
+label[1]='Keywords: '
+label[2]='Values: '
+label[3]='Comments: '
+label[4]='Constants: '
+label[5]='Variables: '
+label[6]='Functions: '
+label[7]='Script Names: '
+label[8]='Resource Names: '
+label[9]='Background: '
+label[10]='Current Line: '
+label[11]='Selection: '
+
+lname[0]='NORMAL'
+lname[1]='KEYWORDS'
+lname[2]='VALUES'
+lname[3]='COMMENTS'
+lname[4]='CONSTANTS'
+lname[5]='VARIABLES'
+lname[6]='FUNCTIONS'
+lname[7]='SCRIPTS'
+lname[8]='RESOURCES'
+lname[9]='BACKGROUND'
+lname[10]='CURLINE'
+lname[11]='SELECTION'
 
 text_margin=192
+text_margin_top=48
 rect_margin=196
 
 font_width=10
@@ -38,24 +66,28 @@ applies_to=self
 draw_set_color(c_dkgray)
 draw_rectangle(0,0,256,room_height,0)
 draw_set_font(fntMain)
-draw_set_halign(fa_right)
+draw_set2(fa_right,fa_top)
 i=0 repeat(labels) {
-    select=clamp(floor((mouse_y-32)/text_border),0,labels-1)
-    if mouse_check_button_pressed(mb_left) and point_in_rectangle(mouse_x,mouse_y,rect_margin,32+i*text_border,rect_margin+rect_width,32+i*text_border+rect_height)
+    select=clamp(floor((mouse_y-text_margin_top)/text_border),0,labels-1)
+    if mouse_check_button_pressed(mb_left) and point_in_rectangle(mouse_x,mouse_y,rect_margin,text_margin_top+i*text_border,rect_margin+rect_width,text_margin_top+i*text_border+rect_height)
         codeColor[select]=get_color($000000)
     draw_set_color(c_white)
-    draw_text(text_margin,32+i*text_border,label[i])
-    draw_set_color(codeColor[i])
-    draw_rectangle(rect_margin,32+i*text_border,rect_margin+rect_width,32+i*text_border+rect_height,0)
-    draw_set_color(0)
-    draw_rectangle(rect_margin,32+i*text_border,rect_margin+rect_width,32+i*text_border+rect_height,1)
+    draw_text(text_margin,text_margin_top+i*text_border,label[i])
+    ///draw_set_color(codeColor[i])
+    ///draw_rectangle(rect_margin,text_margin_top+i*text_border,rect_margin+rect_width,text_margin_top+i*text_border+rect_height,0)
+    ///draw_set_color(0)
+    ///draw_rectangle(rect_margin,text_margin_top+i*text_border,rect_margin+rect_width,text_margin_top+i*text_border+rect_height,1)
+    draw_button_ext(rect_margin,text_margin_top+i*text_border,rect_width,rect_height,codeColor[i],'')
     i+=1
 }
 draw_set_color(c_white)
 draw_set_halign(fa_left)
 draw_text(5,room_height-128,"Please close GameMaker#before saving changes.")
 
-if draw_button_ext(32,room_height-80,128,32,noone,'SAVE THEME') {save_theme()}
+if draw_button_ext(0,room_height-80,128,32,noone,'SAVE THEME') {save_theme(undefined)}
+if draw_button_ext(128,room_height-80,128,32,noone,'LOAD THEME') {load_theme("dialog")}
+
+if draw_button_ext(64,room_height-80+32,128,32,noone,'EXPORT THEME') {save_theme("dialog")}
 /*"/*'/**//* YYD ACTION
 lib_id=1
 action_id=603
@@ -66,6 +98,7 @@ code_margin=4
 code_margin_left=256
 draw_set_color(codeColor[9])
 draw_rectangle(256,0,room_width,room_height,0)
+draw_set2(fa_left,fa_top)
 draw_set_color(c_white)
 selected=0
 i=0 ii=0 h=0 repeat(string_length(text)) {

@@ -26,6 +26,9 @@ draw_sprite_part_ext(buttontex,down,5,21,70,4,dx+4,dy+h-4,(w-8)/70,1,$ffffff,1)
 draw_sprite_part_ext(buttontex,down,0,5,4,15,dx,dy+4,1,(h-8)/15,$ffffff,1)
 draw_sprite_part_ext(buttontex,down,76,5,4,15,dx+w-4,dy+4,1,(h-8)/15,$ffffff,1)
 
-draw_text(dx+5,dy+5,txt)
+if txt!='' {
+draw_set2(fa_center,fa_center)
+draw_text(dx+w/2,dy+h/2,txt)
+}
 
 return mouse_check_button_released(mb_any)&&point_in_rectangle(mouse_x,mouse_y,dx,dy,dx+w,dy+h)

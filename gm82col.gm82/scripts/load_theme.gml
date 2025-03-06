@@ -1,22 +1,50 @@
-i=0 repeat(12) {
-    codeColor[i]=to_color(registry_read_dword('Software\Game Maker\Version 8.2\Preferences\CodeColor'+string(i),-1))
-    if codeColor[i]<0 {
-        show_message('Error occured. Check if Game maker was installed on your pc.')
-        game_end()
-        exit
+var a0;a0=argument0
+if parameter_count()<1 and a0==undefined load_theme_reg()
+else {
+    myv=parameter_string(1)
+    if myv=='' myv=a0
+    if myv=='dialog' myv=get_open_filename('gm82col color file|*.col|Registry color file|*.reg','')
+    if myv=='' exit //{show_message('Okay, cancelling loading color theme then...') exit}
+    if !file_exists(myv) {show_message("Sorry,l but file "+myv+" Doesn't exist.") exit}
+    f=file_text_open_read(myv)
+    if f {
+        switch(filename_ext(myv)) {
+            case ".82col": {
+                while !file_text_eof(f) {
+                mystr=file_text_read_string(f)
+                file_text_readln(f)
+                i=0 repeat(12) {
+                    if string_copy(mystr,1,string_pos(';',mystr)-1)==lname[i] codeColor[i]=to_color(real(string_number(string_copy(mystr,string_pos(';',mystr)+1,255))))
+                    i+=1
+                }
+                }
+                break;
+            }
+            case ".col": {
+                while !file_text_eof(f) {
+                mystr=file_text_read_string(f)
+                file_text_readln(f)
+                mycolpos=string_pos('<Color',mystr)+6
+                myendpos=string_pos('</Color',mystr)
+                i=0 repeat(12) {
+                    if real(string_digits(string_copy(mystr,mycolpos,2)))==i codeColor[i]=to_color(real(string_number(string_cut(mystr,mycolpos+string_length(string_digits(string_copy(mystr,mycolpos,2)))+1,myendpos))))
+                    i+=1
+                }
+                }
+                break;
+            }
+            case ".reg": {
+                while !file_text_eof(f) {
+                    mystr=file_text_read_string(f)
+                    file_text_readln(f)
+                    if string_copy(mystr,2,9)=='CodeColor' {
+                        codeColor[real(string_digits(string_copy(mystr,11,2)))]=to_color(real_hex(string_copy(mystr,string_pos(':',mystr)+3,255)))
+
+                    }
+                }
+                break;
+            }
+        }
+    file_text_close(f)
     }
-    i+=1
 }
-labels=12
-label[0]='Normal text: '
-label[1]='Keywords: '
-label[2]='Values: '
-label[3]='Comments: '
-label[4]='Constants: '
-label[5]='Variables: '
-label[6]='Functions: '
-label[7]='Script Names: '
-label[8]='Resource Names: '
-label[9]='Background: '
-label[10]='Current Line: '
-label[11]='Selection: '
