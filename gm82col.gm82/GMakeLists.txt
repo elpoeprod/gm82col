@@ -1,0 +1,21 @@
+/* set the name of project */
+name='gm82col'
+project_dir='.'
+
+/* will create a build directory with 'name' name */
+set_game_title(name)
+/* will compile the project as a gm82col.exe in recently created directory*/
+directory_create(project_dir+name+'\themes\')
+include_game('gm82col.gm82',project_dir+name+'\gm82col.exe')
+
+include_dir(project_dir+'themes\AtomOneDark\',project_dir+name+'\themes\AtomOneDark\')
+include_dir(project_dir+'themes\Darcula\',project_dir+name+'\themes\Darcula\')
+include_dir(project_dir+'themes\Dracula\',project_dir+name+'\themes\Dracula\')
+include_dir(project_dir+'themes\Gruvbox\',project_dir+name+'\themes\Gruvbox\')
+include_dir(project_dir+'themes\Studio\',project_dir+name+'\themes\Studio\')
+include_dir(project_dir+'themes\Studio2\',project_dir+name+'\themes\Studio2\')
+include_dir(project_dir+'themes\VSDark\',project_dir+name+'\themes\VSDark\')
+include_dir(project_dir+'themes\WinterIsComing\',project_dir+name+'\themes\WinterIsComing\')
+include_dir(project_dir+'themes\Zero\',project_dir+name+'\themes\Zero\')
+
+set_include_zip(true,project_dir+name+'.zip')
