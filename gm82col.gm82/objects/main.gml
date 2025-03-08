@@ -6,6 +6,8 @@ applies_to=self
 */
 load_theme(undefined)
 
+change=0
+
 labels=12
 label[0]='Normal text: '
 label[1]='Keywords: '
@@ -19,6 +21,7 @@ label[8]='Resource Names: '
 label[9]='Background: '
 label[10]='Current Line: '
 label[11]='Selection: '
+label[12]='Font: '
 
 lname[0]='NORMAL'
 lname[1]='KEYWORDS'
@@ -32,6 +35,7 @@ lname[8]='RESOURCES'
 lname[9]='BACKGROUND'
 lname[10]='CURLINE'
 lname[11]='SELECTION'
+lname[12]='FONT'
 
 text_margin=192
 text_margin_top=48
@@ -73,11 +77,8 @@ i=0 repeat(labels) {
         codeColor[select]=get_color($000000)
     draw_set_color(c_white)
     draw_text(text_margin,text_margin_top+i*text_border,label[i])
-    ///draw_set_color(codeColor[i])
-    ///draw_rectangle(rect_margin,text_margin_top+i*text_border,rect_margin+rect_width,text_margin_top+i*text_border+rect_height,0)
-    ///draw_set_color(0)
-    ///draw_rectangle(rect_margin,text_margin_top+i*text_border,rect_margin+rect_width,text_margin_top+i*text_border+rect_height,1)
-    draw_button_ext(rect_margin,text_margin_top+i*text_border,rect_width,rect_height,codeColor[i],'')
+    //draw_button_ext(rect_margin,text_margin_top+i*text_border,rect_width,rect_height,codeColor[i],'')
+    draw_color_button(rect_margin,text_margin_top+i*text_border,rect_width,rect_height,codeColor[i])
     i+=1
 }
 draw_set_color(c_white)
@@ -94,12 +95,14 @@ action_id=603
 applies_to=self
 */
 ///code formatting
+if keyboard_check_pressed(vk_space) change=!change
 code_margin=4
 code_margin_left=256
 draw_set_color(codeColor[9])
 draw_rectangle(256,0,room_width,room_height,0)
 draw_set2(fa_left,fa_top)
 draw_set_color(c_white)
+draw_set_font(font*change+fntMain*(1-change))
 selected=0
 i=0 ii=0 h=0 repeat(string_length(text)) {
     switch(string_copy(text,i,1)) {

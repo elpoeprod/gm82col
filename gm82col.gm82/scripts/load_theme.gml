@@ -3,9 +3,10 @@ if parameter_count()<1 and a0==undefined load_theme_reg()
 else {
     myv=parameter_string(1)
     if myv=='' myv=a0
-    if myv=='dialog' myv=get_open_filename('gm82col color file|*.col|Registry color file|*.reg','')
+    if myv=='dialog' myv=get_open_filename('gm82col color file|*.82col|Registry color file|*.reg|GM:S1.4 color file|*.col','')
     if myv=='' exit //{show_message('Okay, cancelling loading color theme then...') exit}
-    if !file_exists(myv) {show_message("Sorry,l but file "+myv+" Doesn't exist.") exit}
+    if !file_exists(myv) {show_message("Sorry, but file "+myv+" doesn't exist.") exit}
+
     f=file_text_open_read(myv)
     if f {
         switch(filename_ext(myv)) {
@@ -39,7 +40,10 @@ else {
                     file_text_readln(f)
                     if string_copy(mystr,2,9)=='CodeColor' {
                         codeColor[real(string_digits(string_copy(mystr,11,2)))]=to_color(real_hex(string_copy(mystr,string_pos(':',mystr)+3,255)))
-
+                    }
+                    if string_copy(mystr,2,8)=='FontName' {
+                        mm=string_copy(mystr,13,string_length(mystr)-14)
+                        font=font_add(mm,12,1,0,0,255)
                     }
                 }
                 break;

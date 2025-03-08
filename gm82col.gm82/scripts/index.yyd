@@ -6,3 +6,4 @@ save_theme
 
 load_theme
 string_cut
+draw_color_button
